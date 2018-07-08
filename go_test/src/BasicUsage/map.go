@@ -50,3 +50,47 @@ func TestMapUse() {
 	fmt.Println("modify m map data")
 	modifyMapItem(m)
 }
+
+// 测试传递 map[string]interface{} 相关用法：
+//1. 使用方式一
+type Human struct {
+	name string
+	age int
+}
+func testInterface() {
+	type Element interface{}
+	type List []Element
+	list := make(List, 3)
+	list[0] = 1
+	list[1] = "HelloWorld"
+	list[2] = Human{"yang", 27}
+	for index, element := range list {
+		switch value := element.(type) {
+		case int:
+			fmt.Printf("list[%d] ,value is %d\n", index, value)
+		case string:
+			fmt.Printf("list[%d] ,value is %s\n", index, value)
+		case Human:
+			fmt.Printf("list[%d] ,value is %s\n ", index, value)
+		default:
+			fmt.Printf("list[%d] ,value is \n", index)
+		}
+	}
+}
+
+// 2.使用方式二
+// 注：map[string]interface{} 中的string可用其他变量类型代替，比如int
+func subFuncMapInterface(input map[string]interface{}) {
+	for _, element := range input {
+		fmt.Println(element)
+	}
+}
+
+func TestMapInterface() {
+	//var input map[string]interface{}
+	input := make(map[string]interface{}, 3)
+	input["number"] = 1
+	input["string"] = "hello world"
+	input["bool"] = false
+	subFuncMapInterface(input)
+}

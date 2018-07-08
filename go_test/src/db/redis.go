@@ -5,9 +5,11 @@ import (
 	"fmt"
 )
 
-func ExampleNewClient() *redis.Client {
+func NewClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:9999",
+		//Addr:     "localhost:9999",
+		//Addr:     "192.168.221.137:6379",
+		Addr:     "172.20.23.88:6379",
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	})
@@ -42,8 +44,23 @@ func ExampleClient(client *redis.Client) {
 	// lin2 does not exist
 }
 
+// Hash 数据结构相关
+func SaveHashDatas(key string, input map[string]interface{}) {
+	client := NewClient()
+	err := client.HMSet(key, input).Err()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func GetHashDatas(key string) (map[string]string, error) {
+	client := NewClient()
+	val, err := client.HGetAll(key).Result()
+	return val, err
+}
+
 // 测试使用redis
 func TestConnRedis() {
-	client := ExampleNewClient()
+	client := NewClient()
 	ExampleClient(client)
 }

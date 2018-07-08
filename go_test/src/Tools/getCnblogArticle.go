@@ -2,13 +2,13 @@ package fileManage
 
 import (
 	"fmt"
-	"os"
 	"regexp"
-	"strconv"
 	"strings"
 
-	"db"
 	"github.com/PuerkitoBio/goquery"
+	"os"
+	"strconv"
+	"db"
 )
 
 type cnblog struct {
@@ -31,25 +31,6 @@ func converCnblogDataToSimpleString(contents *[]cnblog) string {
 	}
 
 	return allContent
-}
-
-func saveToLocalFile1(outPutFilename string, contents string) {
-	// open output file
-	fo, err := os.Create(outPutFilename)
-	if err != nil {
-		panic(err)
-	}
-	// close fo on exit and check for its returned error
-	defer func() {
-		if err := fo.Close(); err != nil {
-			panic(err)
-		}
-	}()
-
-	// write a chunk
-	if _, err := fo.Write([]byte(contents)); err != nil {
-		panic(err)
-	}
 }
 
 //GetWebChildData 获取制定网址元素信息
@@ -87,7 +68,26 @@ func GetWebChildData(inputURL *string, cnblogData *[]cnblog) ([]string, error) {
 	return ret, err
 }
 
-func main() {
+func saveToLocalFile1(outPutFilename string, contents string) {
+	// open output file
+	fo, err := os.Create(outPutFilename)
+	if err != nil {
+		panic(err)
+	}
+	// close fo on exit and check for its returned error
+	defer func() {
+		if err := fo.Close(); err != nil {
+			panic(err)
+		}
+	}()
+
+	// write a chunk
+	if _, err := fo.Write([]byte(contents)); err != nil {
+		panic(err)
+	}
+}
+
+func SaveToSqlite() {
 	//inputURL := "https://www.cnblogs.com/#p8"
 	var cnblogData []cnblog
 	inputURL := "https://www.cnblogs.com/sitehome/p/"
@@ -129,5 +129,36 @@ func main() {
 		data = append(data, singleData.time)
 		dbMange.AddDataToTable(index, data)
 		index++
+	}
+}
+
+func SaveToRedis() {
+	//inputURL := "https://www.cnblogs.com/#p8"
+	var cnblogData []cnblog
+	inputURL := "https://www.cnblogs.com/sitehome/p/"
+	for pageCount := 1; pageCount < 2; pageCount++ {
+		URL := inputURL + strconv.Itoa(pageCount)
+		GetWebChildData(&URL, &cnblogData)
+	}
+
+	for index, singlePageData := range cnblogData {
+		inputDatas := make(map[string]interface{}, 5)
+		inputDatas["title"] = singlePageData.title;
+		inputDatas["contentURL"] = singlePageData.contentURL;
+		inputDatas["summary"] = singlePageData.summary;
+		inputDatas["authorURL"] = singlePageData.authorURL;
+		inputDatas["time"] = singlePageData.time;
+
+		dbMange.SaveHashDatas(strconv.Itoa(index), inputDatas)
+
+		// 查看录入的redis内容
+		val, err := dbMange.GetHashDatas(strconv.Itoa(index))
+		if err == nil {
+			fmt.Printf("title:%s\n", val["title"])
+			fmt.Printf("contentURL:%s\n", val["contentURL"])
+			fmt.Printf("summary:%s\n", val["summary"])
+			fmt.Printf("authorURL:%s\n", val["authorURL"])
+			fmt.Printf("time:%s\n", val["time"])
+		}
 	}
 }
