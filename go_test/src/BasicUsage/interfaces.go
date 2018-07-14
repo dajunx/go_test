@@ -44,6 +44,15 @@ func (v *Vertex) Abs() float64 {
 }
 
 // 匿名变量使用
+type Human struct {
+	name string
+	age int
+}
+type student struct {
+	hum Human
+	pwd string
+}
+
 func TestAnonymousVariableUsage() {
 	var nullInterface interface{}
 	var i int = 5
