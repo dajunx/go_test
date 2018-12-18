@@ -72,7 +72,7 @@ func getHttpConsoleURL(doc *goquery.Document, nodeInfo string) string {
 func getHttpConsoleURLTest(doc *goquery.Document, nodeInfo string) [2]string {
 	var ret [2]string
 	doc.Find(nodeInfo).Each(func(i int, s *goquery.Selection) {
-		if i != 0 || i != 1 {
+		if i != 0 && i != 1 {
 			return
 		}
 
