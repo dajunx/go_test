@@ -14,3 +14,10 @@
 - gvt github地址：https://github.com/FiloSottile/gvt
 - gvt 程序已经放在了自己github仓库里面：https://github.com/dajunx/go_test/tree/master/bin
 - go 守跨网原因，拉取不到的依赖 golang.org，已放置在 https://github.com/dajunx/3rd_lib 中，布置环境的时候，从该地方下载放在 $(GOPATH)/src/ 下面
+
+##### 目前所依赖的三方库
+- https://github.com/PuerkitoBio/goquery
+- https://github.com/andybalholm/cascadia 
+- https://github.com/go-redis/redis
+- https://github.com/go-sql-driver/mysql
+- https://github.com/mattn/go-sqlite3
