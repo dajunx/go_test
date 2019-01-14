@@ -206,7 +206,7 @@ func parseJSON(res []byte) bool {
 }
 
 //获取网易歌曲含有评论的连接地址
-func get163MusicComment() {
+func Get163MusicComment() {
 	// 网易歌曲原始播放地址，含有评论
 	songURL := "https://music.163.com/#/song?id="
 

@@ -57,7 +57,7 @@ func executeMysql(sql string) bool {
 /*
 	参数说明：connInfo 形如："DBUserName:DBPWD@tcp(IP:Port)/DatabaseName"
  */
-func TestConnectJDClondMysql(connInfo string) {
+func TestConnectMysql(connInfo string) {
 	if initConnectMysql(connInfo) == false { // 连接数据库异常
 		return
 	}
