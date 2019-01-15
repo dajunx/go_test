@@ -17,7 +17,7 @@
 
 ##### 目前所依赖的三方库
 - https://github.com/PuerkitoBio/goquery
-- https://github.com/andybalholm/cascadia 
+- ~~https://github.com/andybalholm/cascadia~~
 - https://github.com/go-redis/redis
 - https://github.com/go-sql-driver/mysql
 - https://github.com/mattn/go-sqlite3
